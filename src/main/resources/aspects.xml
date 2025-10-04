@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/aop
+ http://www.springframework.org/schema/aop/spring-aop.xsd
+ http://www.springframework.org/schema/context
+ http://www.springframework.org/schema/context/spring-context.xsd
+">
+
+    <context:component-scan base-package="com.fency.springframework" />
+
+    <aop:aspectj-autoproxy/>
+
+    <bean id="logAspect" class="com.fency.springframework.aspect.LogAspect">
+        <!-- configure properties of aspect here as normal -->
+    <!-- 配置 AOP -->
+    <aop:config>
+        <!-- 定义切面 -->
+        <aop:aspect id="LogAspect" ref="LogAspect">
+            <!-- 定义切入点 -->
+            <aop:pointcut id="userServiceMethods"
+                          expression="execution(* com.fency.service.*(..))"/>
+
+            <!-- 配置前置通知 -->
+            <aop:before method="logBefore" pointcut-ref="userServiceMethods"/>
+
+            <!-- 配置后置通知 -->
+            <aop:after method="logAfter" pointcut-ref="userServiceMethods"/>
+
+            <!-- 配置返回通知 -->
+            <aop:after-returning method="logAfterReturning"
+                                 pointcut-ref="userServiceMethods"
+                                 returning="result"/>
+
+            <!-- 配置异常通知 -->
+            <aop:after-throwing method="logAfterThrowing"
+                                pointcut-ref="userServiceMethods"
+                                throwing="exception"/>
+        </aop:aspect>
+    </aop:config>
+    </bean>
+    <!-- more bean definitions for data access objects go here -->
+</beans>
