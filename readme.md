@@ -8,3 +8,6 @@
 - Claude Code AI辅助开发
 
 测试github提交的贡献者
+
+## 更新日志
+- 2025-10-04: 配置Claude Code共同贡献者功能
